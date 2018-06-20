@@ -1,6 +1,10 @@
 #!/bin/bash
 
-[ -d /etc/home-settings ] && {
-    cp -r -T /etc/home-settings $HOME || exit 1
+[ -d /etc/entrypoint.d ] && {
+    for INIT in /etc/entrypoint.d/*.sh; do
+        [ -f "$INIT" ] || continue
+        echo "loading $INIT..." >&2
+        . "$INIT" || exit 1
+    done
 }
-exec "$@"
+echo "$*" >&2 && exec "$@"

@@ -8,9 +8,8 @@ RUN apk add --no-cache bash coreutils curl openssh-client openssl git findutils 
 	curl -sSL 'https://npc.nos-eastchina1.126.net/dl/helm-v2.9.1-linux-amd64.tar.gz' | tar -zx -C /usr/local/helm
 ENV KUBECTL_EXECUTABLE=/usr/local/kubernetes/client/bin/kubectl HELM_EXECUTABLE=/usr/local/helm/linux-amd64/helm
 
-ADD entrypoint.sh exec-cmd.sh /usr/local/
-RUN chmod 0755 /usr/local/entrypoint.sh /usr/local/exec-cmd.sh && \
+ADD exec-cmd.sh /usr/local/
+RUN chmod 0755 /usr/local/exec-cmd.sh && \
 	ln -s /usr/local/exec-cmd.sh /usr/local/bin/helm && \
 	ln -s /usr/local/exec-cmd.sh /usr/local/bin/kubectl
-ENTRYPOINT [ "/usr/local/entrypoint.sh" ]
 CMD [ "/bin/bash" ]
